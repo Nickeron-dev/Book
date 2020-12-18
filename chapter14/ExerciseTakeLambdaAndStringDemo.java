@@ -19,7 +19,7 @@ public class ExerciseTakeLambdaAndStringDemo {
       for(int i = str.length()-1; i >= 0; i--) {
         switch(str.charAt(i)) {
           case ' ':  // changing space to -
-            answer += '-';
+            // answer += '-';  // remove slashes at the beginning if this line to see default code
             break;
           case '.':  // changing . to !
             answer += '!';
