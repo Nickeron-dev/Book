@@ -9,7 +9,7 @@ public class UsingJField implements ActionListener{
   public JButton button;
 
   public UsingJField() {
-    JFrame jframe = new JFrame("Here is JTextField");
+    JFrame jframe = new JFrame("Here is JTextField"); // creating a frame
 
     jframe.setLayout(new FlowLayout());
 
