@@ -40,7 +40,7 @@ public class UsingJField implements ActionListener{
   public void actionPerformed(ActionEvent ae) {
     if(ae.getActionCommand().equals("Pressed")) {
       String orgStr = jtf.getText();
-      String resStr = "";
+      String resStr = ""; // some comments
 
       for(int i = 0; i < orgStr.length(); i++) {
         resStr += orgStr.charAt(i);
