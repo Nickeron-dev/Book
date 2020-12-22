@@ -20,7 +20,7 @@ public class UsingJField implements ActionListener{
     jtf = new JTextField(10); // number 10 is amount of characters
 
     jtf.setActionCommand("myAction");
-
+ // some more comments
     button = new JButton("Pressed");
 
     jtf.addActionListener(this);
