@@ -13,7 +13,7 @@ public class UsingJField implements ActionListener{
 
     jframe.setLayout(new FlowLayout());
 
-    jframe.setSize(250, 400);
+    jframe.setSize(250, 400); // some comments
 
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
