@@ -1,0 +1,1 @@
+This is text file just for test how to commit in terminal.
