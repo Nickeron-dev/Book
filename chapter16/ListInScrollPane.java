@@ -19,7 +19,7 @@ public class ListInScrollPane implements ListSelectionListener {
     // setting a layout
     frame.setLayout(new FlowLayout());
 
-    frame.setSize(200, 160);
+    frame.setSize(200, 160); // some more comments for convinience
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
