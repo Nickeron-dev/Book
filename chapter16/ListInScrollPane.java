@@ -16,6 +16,7 @@ public class ListInScrollPane implements ListSelectionListener {
     // creating a window
     JFrame frame = new JFrame("Here is a list!");
 
+    // setting a layout
     frame.setLayout(new FlowLayout());
 
     frame.setSize(200, 160);
