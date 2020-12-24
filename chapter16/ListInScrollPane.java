@@ -26,6 +26,7 @@ public class ListInScrollPane implements ListSelectionListener {
     // created a list
     list = new JList<String>(listOfLanguages);
 
+    // setting selection mode
     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     forScrolling = new JScrollPane(list); // put in panel a list
