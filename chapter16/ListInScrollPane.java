@@ -23,6 +23,7 @@ public class ListInScrollPane implements ListSelectionListener {
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // created a list
     list = new JList<String>(listOfLanguages);
 
     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
