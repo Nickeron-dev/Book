@@ -11,7 +11,7 @@ public class ListInScrollPane implements ListSelectionListener {
   JScrollPane forScrolling;
   String[] listOfLanguages = {"English", "German", "Russian", "Ukrainian", "French",
                               "Chinese", "Polish", "Portugeese", "International"};
-
+// some comments
   public ListInScrollPane() {
     // creating a window
     JFrame frame = new JFrame("Here is a list!");
