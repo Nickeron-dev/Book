@@ -6,29 +6,36 @@ import java.io.*;
 import javax.swing.*;
 
 public class AppForComparingFiles implements ActionListener{
+  // creating stuff for file
   JLabel result, tipOne, tipTwo;
   JTextField fileInputOne, fileInputTwo;
   JButton button;
 
   public AppForComparingFiles() {
+    // jframe
     JFrame frame = new JFrame("Compare");
 
+    // set FlowLayout
     frame.setLayout(new FlowLayout());
 
+    // set size
     frame.setSize(300, 250);
 
+    // setting close operation
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // initializing elements
     result = new JLabel("");
     tipOne = new JLabel("Input first file's name");
     tipTwo = new JLabel("Input second file's name");
     fileInputOne = new JTextField(20);
     fileInputTwo = new JTextField(20);
-
     button = new JButton("Compare");
 
+    // adding ActionListener to check out pressing
     button.addActionListener(this);
 
+    // adding everything in correct order
     frame.add(tipOne);
     frame.add(fileInputOne);
     frame.add(tipTwo);
@@ -36,11 +43,12 @@ public class AppForComparingFiles implements ActionListener{
     frame.add(button);
     frame.add(result);
 
+    // setting visibility
     frame.setVisible(true);
   }
 
   public void actionPerformed(ActionEvent action) {
-    int i, j;
+    int i, j;  // variables for comparing
 
     // checking if all files are inputted
     if(fileInputOne.getText().equals("")) {
