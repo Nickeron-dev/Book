@@ -82,7 +82,7 @@ public class AppForComparingFiles implements ActionListener{
     }
   }
 
-
+  // here will be the main method to start the app
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
