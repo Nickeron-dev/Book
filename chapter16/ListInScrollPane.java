@@ -27,7 +27,7 @@ public class ListInScrollPane implements ListSelectionListener {
     list = new JList<String>(listOfLanguages);
 
     // setting selection mode
-    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    //list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     forScrolling = new JScrollPane(list); // put in panel a list
 
@@ -45,10 +45,12 @@ public class ListInScrollPane implements ListSelectionListener {
 
   public void valueChanged(ListSelectionEvent lse) {
     // get an index of an element which is chosen
-    int getIndex = list.getSelectedIndex(); // returns -1 if nothing is chosen
-
-    if(getIndex != -1) {
-      result.setText("Language is: " + listOfLanguages[getIndex]);
+    int[] getIndices = list.getSelectedIndices(); // returns -1 if nothing is chosen
+    String answer = "";
+    // Unfortunately, it doen't work even in book's example
+    if(getIndices.length != 0) {
+      for(int i = 0; i < getIndices.length; i++) answer += listOfLanguages[getIndices[i]];
+      result.setText("Languages are: " + answer);
     }
     else {
       result.setText("Nothing is chosen");

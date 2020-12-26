@@ -10,6 +10,7 @@ public class AppForComparingFiles implements ActionListener{
   JLabel result, tipOne, tipTwo;
   JTextField fileInputOne, fileInputTwo;
   JButton button;
+  int index = 0;
 
   public AppForComparingFiles() {
     // jframe
@@ -63,16 +64,18 @@ public class AppForComparingFiles implements ActionListener{
     // comparing files
     try(FileInputStream fileOne = new FileInputStream(fileInputOne.getText());
         FileInputStream fileTwo = new FileInputStream(fileInputTwo.getText())) {
-
       do {
         i = fileOne.read();
         j = fileTwo.read();
-        if(i != j) break;
+        index += 1;
+        if(i != j) {
+          break;
+        }
       } while(i != -1 && j != -1);
 
 
       if(i != j) {
-        result.setText("Files are different");
+        result.setText("Files are different, first diff on:" + index);
       } else {
         result.setText("Files are same");
       }
