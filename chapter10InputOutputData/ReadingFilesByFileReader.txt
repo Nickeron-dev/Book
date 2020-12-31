@@ -1,0 +1,4 @@
+There is some information in this file
+some new strings also
+i don't know what to write here more
+FileReader is addition to FileInputStream

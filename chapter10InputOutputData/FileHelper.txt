@@ -1,0 +1,41 @@
+#if
+if (condition) {
+	actions;
+} else{
+	instruction
+}
+If condition is true does something
+
+#for
+for(int i = 0; i < n; i++) {
+	instruction
+}
+
+#switch
+switch(condition) {
+	case n:
+		instructions
+		break;
+}
+
+#while
+while(condition) {
+	actions;
+}
+Checks and then does
+
+#do
+do {
+	actions;
+} while(condition);
+Does at least one time and then check
+
+#break
+break or break metka;
+
+#continue
+continue or continue metka;
+
+#cat
+Kukusya has tail and paws
+
