@@ -1,14 +1,12 @@
 package appstart.mymodappdemo;
 
 import appfuncs.simplefuncs.SimpleMathFuncs;
-import java.io.*;
 
 public class MyModAppDemo {
   public static void main(String[] args) {
-    PrintWriter pw = new PrintWriter(System.out, true);
-    if(isFactor(2, 10)) pw.println("2 is a factor of 10");
-
-    pw.println("The lowest multiplier of 35 and 105 is: " + getLowestMulitplier(35, 105));
-    pw.println("The biggest st multiplier of 35 and 105 is: " + getBiggestMulitlier(35, 105));
+    if(SimpleMathFuncs.isFactor(2, 10))
+      System.out.println("2 is factor of 10");
+    System.out.println("The smallest factor of 35 and 105 is: " + SimpleMathFuncs.lcf(35, 105));
+    System.out.println("The largest factor of 35 and 105 is: " + SimpleMathFuncs.gcf(35, 105));
   }
 }
