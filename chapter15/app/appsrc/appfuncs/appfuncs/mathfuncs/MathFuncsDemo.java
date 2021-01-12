@@ -1,6 +1,6 @@
 package appfuncs.mathfuncs;
 
-public class MathFuncs {
+public class MathFuncsDemo {
   // tells if a is b multiplier of a
   public static boolean isFactor(int a, int b) {
     if(a % b == 0) return true;
