@@ -11,6 +11,12 @@ public class HashSetDemo {
     set.add("Lemon");
     set.add("Terry");
     set.add("George");
+    set.add("John"); // trying to add a duplicate
+
+    // the main difference between sets and lists is that sets don't allow duplicates
+
+    // also, hash means that elements aren't stored as a sertain
+    // sequence(their order might be different)
 
     System.out.println(set);
   }
