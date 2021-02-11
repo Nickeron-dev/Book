@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/BooksAndCourses.iml" filepath="$PROJECT_DIR$/.idea/BooksAndCourses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appfuncs/appfuncs.iml" filepath="$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appfuncs/appfuncs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appstart/appstart.iml" filepath="$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appstart/appstart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appsupport/appsupport.iml" filepath="$PROJECT_DIR$/beginnersGuide/chapter15/mymodapp/appsrc/appsupport/appsupport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/beginnersGuide.iml" filepath="$PROJECT_DIR$/beginnersGuide/beginnersGuide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/completeReference/completeReference.iml" filepath="$PROJECT_DIR$/completeReference/completeReference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/chapter15/app/appsrc/userfuncs/userfuncs.iml" filepath="$PROJECT_DIR$/beginnersGuide/chapter15/app/appsrc/userfuncs/userfuncs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beginnersGuide/chapter15/app/appsrc/userfuncsimp/userfuncsimp.iml" filepath="$PROJECT_DIR$/beginnersGuide/chapter15/app/appsrc/userfuncsimp/userfuncsimp.iml" />
+    </modules>
+  </component>
+</project>
