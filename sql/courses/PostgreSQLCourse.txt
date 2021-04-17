@@ -109,3 +109,31 @@ SELECT donators.first_name, donators.username,
 		donators.age, donates.price, donates.donate_date
 FROM donators
 JOIN donates ON donators.donator_id = donates.donator_id;
+
+SELECT *
+FROM person;
+
+--ALTER TABLE person
+--ADD email varchar(64);
+
+--ALTER TABLE person
+--DROP COLUMN email;
+
+--ALTER TABLE person
+--ADD age int CHECK (age >= 18);
+
+INSERT INTO person (person_id, first_name, last_name, age)
+VALUES (5, 'fdghd', 'sdf', 18);
+
+
+--ALTER TABLE person
+--ALTER email SET DEFAULT 'SADFSFD';
+
+--ALTER TABLE persons
+--ADD incrementing int 1 SERIAL 1;
+
+CREATE PROCEDURE test_procedure
+AS $$
+BEGIN
+	SELECT * FROM person
+END; $$
