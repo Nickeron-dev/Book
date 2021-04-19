@@ -200,3 +200,73 @@ SELECT *
 FROM faculty;
 
 TRUNCATE TABLE faculty RESTART IDENTITY;
+
+--CREATE TABLE teacher
+(
+	teacher_id serial,
+	first_name varchar,
+	last_name varchar,
+	birthday date,
+	phone varchar,
+	title varchar
+);
+
+ALTER TABLE teacher
+ADD COLUMN middle_name varchar;
+
+ALTER TABLE teacher
+DROP COLUMN middle_name;
+
+ALTER TABLE teacher
+RENAME birthday TO birth_date;
+
+ALTER TABLE teacher
+ALTER COLUMN phone SET DATA TYPE varchar(32);
+
+SELECT *
+FROM teacher;
+
+--CREATE TABLE exam 
+(
+	exam_id serial,
+	exam_name varchar(256),
+	exam_date date
+);
+
+INSERT INTO exam (exam_name, exam_date)
+VALUES ('test 1', '2020-09-01'),
+		('test 2', '2021-01-15'),
+		('test 3', '2021-03-31');
+
+SELECT *
+FROM exam;
+
+TRUNCATE TABLE exam CONTINUE IDENTITY;
+
+TRUNCATE TABLE exam RESTART IDENTITY;
+--DROP TABLE IF EXISTS chair;
+
+--CREATE TABLE chair (
+	chair_id serial UNIQUE NOT NULL,
+	chair_name varchar,
+	dean varchar
+	
+	-- SECOND VARIANT IS: CONSTRAINT PK_chair_pkey PRIMARY KEY(chair_id)
+);
+-- PRIMARY KEY may be only one in all table but UNIQUE NOT NULL can be even in each column
+INSERT INTO chair
+VALUES (NULL, 'name3', 'dean3');
+
+SELECT * FROM chair;
+
+SELECT constraint_name
+FROM information_schema.key_column_usage
+WHERE table_name = 'chair'
+	AND table_schema = 'public'
+	AND column_name = 'chair_id';
+
+ALTER TABLE chair
+DROP CONSTRAINT chair_pkey;
+
+ALTER TABLE chair
+ADD PRIMARY KEY(chair_id);
