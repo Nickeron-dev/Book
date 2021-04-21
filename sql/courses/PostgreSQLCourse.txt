@@ -506,3 +506,55 @@ RETURNING *;
 
 SELECT * FROM author;
 
+--DROP TABLE IF EXISTS exam;
+
+CREATE TABLE exam 
+(
+	exam_id int GENERATED ALWAYS AS IDENTITY (START 1 INCREMENT BY 1), UNIQUE, NOT NULL,
+	exam_name varchar(32),
+	exam_date date
+);
+
+ALTER TABLE exam
+DELETE CONSTRAINT
+
+-- something
+
+DROP TABLE IF EXISTS person;
+
+DROP TABLE IF EXISTS passport;
+
+CREATE TABLE person 
+(
+	person_id int, PRIMARY KEY,
+	first_name varchar,
+	last_name varchar
+);
+
+CREATE TABLE passport
+(
+	passport_id int PRIMARY KEY,
+	serial_number int NOT NULL,
+	register varchar(32),
+	person_id int FOREIGN KEY
+);
+
+ALTER TABLE book
+ADD COLUMN weight int CHECK weight > 0 AND weight < 100;
+
+DROP TABLE student;
+
+CREATE TABLE student
+(
+	student_id int GENERATED ALWAYS AS IDENTITY (START 1 INCREMENT BY 1),
+	full_name text,
+	course int DEFAULT 1
+);
+
+INSERT INTO student (full_name)
+VALUES ('NAME')
+RETURNING *;
+
+SELECT * FROM student;
+
+
