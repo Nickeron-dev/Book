@@ -709,3 +709,95 @@ VALUES (81, 'SADF', 20, 6, '43 SMTH', 3.5, 4, 3, 2, 1);
 SELECT MAX(product_id)
 FROM active;
 
+SELECT product_name, unit_price, units_in_stock,
+	CASE WHEN units_in_stock >= 100 THEN 'lost of'
+		WHEN units_in_stock >= 50 AND units_in_stock < 100 THEN 'average'
+		WHEN units_in_stock < 50 THEN 'low number'
+		ELSE 'unknown'
+	END AS amount
+FROM products
+ORDER BY units_in_stock DESC;
+
+SELECT order_id, order_date,
+	CASE WHEN date_part('month', order_date) BETWEEN 3 AND 5 THEN 'spring'
+		WHEN date_part('month', order_date) BETWEEN 6 AND 8 THEN 'summer'
+		WHEN date_part('month', order_date) BETWEEN 9 AND 11 THEN 'autumn'
+		ELSE 'winter'
+	END AS season
+FROM orders;
+
+SELECT product_name, unit_price,
+	CASE WHEN unit_price >= 30 THEN 'Expensive'
+		WHEN unit_price < 30 THEN 'Inexpensive'
+		ELSE 'Undetermined'
+	END AS price_description
+FROM products;
+
+SELECT *
+FROM orders
+LIMIT 10;
+
+SELECT order_id, order_date, COALESCE(ship_region, 'unknown') AS ship_region
+FROM orders
+LIMIT 10;
+
+SELECT *
+FROM employees;
+
+SELECT last_name, first_name, COALESCE(region, 'N/A') AS region
+FROM employees;
+
+-- COALESCE WE USE IF WE HAVE NULL VALUE AND WANT TO CHANGE IT TO SMTH
+SELECT *
+FROM customers;
+
+SELECT contact_name, COALESCE(NULLIF(city, ' '), 'Unknown') AS city
+FROM customers;
+-- NULLIF works with COALESCE TO MAKE CHANGING ALL VALUES POSSIBLE
+
+insert into customers(customer_id, contact_name, city, country, company_name)
+values 
+('AAAAA', 'Alfred Mann', NULL, 'USA', 'fake_company'),
+('BBBBB', 'Alfred Mann', NULL, 'Austria','fake_company');
+
+-- 1
+SELECT contact_name, city, country
+FROM customers
+ORDER BY contact_name ,
+(
+	CASE WHEN city IS NULL THEN country
+		ELSE city
+	END
+);
+
+SELECT *
+FROM products;
+
+-- 2
+SELECT product_name, unit_price,
+	CASE WHEN unit_price >= 100 THEN 'too expensive'
+		WHEN unit_price >= 50 AND unit_price < 100 THEN 'average'
+		WHEN unit_price < 50 THEN 'low price'
+	END AS general_price
+FROM products;
+
+SELECT *
+FROM employees;
+--3
+SELECT contact_name,
+	CASE WHEN order_id IS NULL THEN 'no orders'
+		ELSE order_id::text
+	END AS order_id_or_no
+FROM customers
+LEFT JOIN orders USING(customer_id)
+--WHERE orders.order_id IS NULL;
+
+--4
+SELECT first_name, last_name, 
+	COALESCE(NULLIF(title, 'Sales Representative'), 'Sales Stuff') AS title
+FROM employees;
+
+
+
+
+
