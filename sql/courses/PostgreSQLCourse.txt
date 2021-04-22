@@ -557,4 +557,155 @@ RETURNING *;
 
 SELECT * FROM student;
 
+ CREATE VIEW products_suppliers_categories AS
+ SELECT product_name, quantity_per_unit, unit_price, units_in_stock,
+ 	company_name, contact_name, phone, category_name, description
+FROM products
+JOIN suppliers USING(supplier_id)
+JOIN categories USING(category_id);
+
+SELECT *
+FROM products_suppliers_categories
+WHERE unit_price > 20;
+
+DROP VIEW IF EXISTS products_suppliers_categories;
+
+SELECT * FROM orders;
+
+CREATE VIEW heavy_orders AS
+SELECT *
+FROM orders
+WHERE freight > 50;
+
+SELECT *
+FROM heavy_orders
+ORDER BY freight DESC;
+
+CREATE OR REPLACE VIEW heavy_orders AS
+SELECT *
+FROM orders
+WHERE freight > 100;
+
+CREATE OR REPLACE VIEW products_suppliers_categories AS
+SELECT product_name, quantity_per_unit, unit_price, units_in_stock, discontinued
+	   company_name, contact_name, phone, country, category_name, description
+FROM products
+JOIN suppliers USING(supplier_id)
+JOIN categories USING(category_id);  -- impossible because you can't add columns
+
+SELECT *
+FROM products_suppliers_categories
+WHERE discontinued = 1;
+
+ALTER VIEW products_suppliers_categories RENAME TO psc_old;
+
+SELECT MAX(order_id)
+FROM  orders;
+
+INSERT INTO heavy_orders
+VALUES (11078, 'VINET', 5, '2019-12-10', '2019-12-15', '2019-12-14', 1, 120,
+	   'hANARI cARNES', 'Rua do Paco', 'Bern', null, 3012, 'Switzerland');
+
+SELECT *
+FROM heavy_orders
+ORDER BY order_id DESC;
+
+SELECT MIN(freight)
+FROM orders;
+
+DELETE FROM heavy_orders
+WHERE freight < 0.05;
+
+DELETE FROM heavy_orders
+WHERE freight < 100.25;
+
+DELETE FROM order_details
+WHERE order_id = 10854;
+
+SELECT *
+FROM heavy_orders
+ORDER BY freight;
+
+INSERT INTO heavy_orders
+VALUES(11901, 'FOLIG', 1, '2000-01-01', '2000-01-05', '2000-01-04', 1, 80, 'Folies gourmandes', '184, chaussee de Tournai',
+	  'Lille', NULL, 59000, 'FRANCE');
+
+SELECT *
+FROM orders
+WHERE order_id = 11900;
+
+CREATE OR REPLACE VIEW heavy_orders AS
+SELECT *
+FROM orders
+WHERE freight > 100
+WITH LOCAL CHECK OPTION;
+ -- 1
+CREATE VIEW many_dates AS
+SELECT order_date, required_date, shipped_date, ship_postal_code,
+	company_name, contact_name, phone, last_name, first_name, title
+FROM orders
+INNER JOIN customers USING(customer_id)
+INNER JOIN employees USING(employee_id);
+
+SELECT *
+FROM many_dates
+WHERE order_date > '1997-01-01';
+-- 2
+SELECT *
+FROM customers;
+
+CREATE VIEW dates_ships AS
+SELECT order_date, required_date, shipped_date, ship_postal_code,
+	ship_country, company_name, contact_name, phone, last_name,
+	first_name, title
+FROM orders
+JOIN customers USING(customer_id)
+JOIN employees USING(employee_id);
+
+SELECT *
+FROM dates_ships;
+
+CREATE OR REPLACE VIEW new_dates_ships AS
+SELECT order_date, required_date, shipped_date, ship_postal_code,
+	company_name, ship_country, customers.postal_code, reports_to,
+	contact_name, phone, last_name,
+	first_name, title
+FROM orders
+JOIN customers USING(customer_id)
+JOIN employees USING(employee_id);
+
+ALTER VIEW dates_ships RENAME TO new_dates_ships;
+
+SELECT *
+FROM new_dates_ships;
+
+CREATE VIEW updated_dates AS
+SELECT order_date, required_date, shipped_date, ship_postal_code, 
+	ship_country, company_name,  customers.postal_code, reports_to,
+	contact_name, phone, last_name,
+	first_name, title
+FROM orders
+INNER JOIN customers USING(customer_id)
+JOIN employees USING(employee_id);
+
+SELECT *
+FROM updated_dates
+ORDER BY ship_country;
+
+DROP VIEW updated_dates;
+-- 3
+CREATE OR REPLACE VIEW active AS
+SELECT *
+FROM products
+WHERE discontinued = 0
+WITH LOCAL CHECK OPTION; -- FOR MAKING INSERT WHERE discontinued is 1 impossible
+
+SELECT *
+FROM active;
+
+INSERT INTO active
+VALUES (81, 'SADF', 20, 6, '43 SMTH', 3.5, 4, 3, 2, 1);
+
+SELECT MAX(product_id)
+FROM active;
 
