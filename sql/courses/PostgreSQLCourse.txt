@@ -797,6 +797,110 @@ SELECT first_name, last_name,
 	COALESCE(NULLIF(title, 'Sales Representative'), 'Sales Stuff') AS title
 FROM employees;
 
+SELECT *
+FROM customers;
+
+SELECT *
+INTO tmp_customers
+FROM customers;
+
+SELECT *
+FROM tmp_customers;
+
+UPDATE tmp_customers
+SET region = 'unknown'
+WHERE region IS NULL;
+
+CREATE OR REPLACE FUNCTION fix_customer_region() RETURNS void AS $$
+	UPDATE tmp_customers
+	SET region = 'unknown'
+	WHERE region IS NULL
+$$ LANGUAGE SQL;
+
+SELECT fix_customer_region();
+
+CREATE OR REPLACE FUNCTION get_total_number_of_goods() RETURNS bigint AS $$
+	SELECT SUM(units_in_stock) AS total_goods
+	FROM products
+$$ language SQL;
+
+SELECT get_total_number_of_goods();
+
+CREATE OR REPLACE FUNCTION get_avg_price() RETURNS float8 AS $$
+	SELECT AVG(unit_price)
+	FROM products
+$$ LANGUAGE SQL;
+
+SELECT get_avg_price() AS avg_price;
+
+CREATE OR REPLACE FUNCTION get_product_price_by_name(prod_name varchar) RETURNS real AS $$
+	SELECT unit_price -- it is possible to type (IN prod_name varchar) but it is same
+	FROM products
+	WHERE product_name = prod_name
+$$ LANGUAGE SQL;
+
+SELECT get_product_price_by_name('Chocolade') AS price;
+
+SELECT *
+FROM products;
+
+CREATE OR REPLACE FUNCTION get_price_boundaries(OUT max_price real, OUT min_price real) AS $$
+	SELECT MAX(unit_price), MIN(unit_price)
+	FROM products
+$$ LANGUAGE SQL;
+
+SELECT get_price_boundaries();
+SELECT * FROM get_price_boundaries();
+
+CREATE OR REPLACE FUNCTION get_price_boundaries_by_discontinuity(IN is_discontinued int DEFAULT 1, OUT max_price real, OUT min_price real) AS $$
+	SELECT MAX(unit_price), MIN(unit_price)
+	FROM products
+	WHERE discontinued = is_discontinued
+$$ LANGUAGE SQL; -- IN in arguments is not necessary
+
+SELECT get_price_boundaries_by_discontinuity(1);
+SELECT * 
+FROM get_price_boundaries_by_discontinuity(1);
+
+SELECT get_price_boundaries_by_discontinuity(0);
+SELECT * 
+FROM get_price_boundaries_by_discontinuity(0);
+
+SELECT get_price_boundaries_by_discontinuity();
+SELECT * 
+FROM get_price_boundaries_by_discontinuity();
+
+-- HW
+-- 1 need a bit change (it also must delete old one)
+CREATE OR REPLACE FUNCTION backup() RETURNS void AS $$
+	SELECT *
+	INTO tmp_customers
+	FROM customers
+$$ LANGUAGE SQL;
+
+SELECT *
+FROM backup();
+-- 2
+CREATE OR REPLACE FUNCTION average_freight() RETURNS real AS $$
+	SELECT AVG(freight)
+	FROM orders
+$$ LANGUAGE SQL;
+
+SELECT *
+FROM average_freight();
+
+SELECT average_freight();
+-- 4
+CREATE OR REPLACE FUNCTION max_min_salary(IN city varchar(15), OUT max_salary real, OUT min_salary real) AS $$
+	SELECT MAX(salary), MIN(salary)
+	FROM employees
+$$ LANGUAGE SQL;
+
+SELECT *
+FROM employees;
+
+SELECT *
+FROM max_min_salary;
 
 
 
