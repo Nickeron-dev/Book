@@ -1363,6 +1363,131 @@ SELECT should_increase_salary(40, 80, 30, 0.2);
 SELECT should_increase_salary(79, 81, 80, 0.2);
 SELECT should_increase_salary(79, 95, 90, 0.2);
 
+DROP FUNCTION IF EXISTS get_season;
+CREATE OR REPLACE FUNCTION get_season(month_number int) RETURNS text AS $$
+DECLARE 
+	season text;
+BEGIN
+	IF month_number NOT BETWEEN 1 AND 12 THEN
+		RAISE EXCEPTION 'Invalid month. You passed: (%)', month_number USING HINT = 'Allowed from 1 up to 12', ERRCODE = 12882;
+	END IF;
+	
+	IF month_number BETWEEN 3 AND 5 THEN
+		season = 'Spring';
+	ELSEIF month_number BETWEEN 6 AND 8 THEN
+		season = 'Summer';
+	ELSEIF month_number BETWEEN 9 AND 11 THEN
+		season = 'Autumn';
+	ELSE 
+		season = 'Winter';
+	END IF;
+	
+	RETURN season;
+	
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT get_season(12);
+
+SELECT get_season(15);
+
+CREATE OR REPLACE FUNCTION get_season_caller(month_number int) returns text AS $$
+DECLARE 
+	err_ctx text;
+	err_msg text;
+	err_details text;
+	err_code text;
+BEGIN
+	RETURN get_season(month_number);
+EXCEPTION WHEN SQLSTATE '12882' THEN 
+	GET STACKED DIAGNOSTICS 
+		err_ctx = PG_EXCEPTION_CONTEXT,
+		err_msg = MESSAGE_TEXT,
+		err_details = PG_EXCEPTION_DETAIL,
+		err_code = RETURNED_SQLSTATE;
+	RAISE INFO 'My custom handler:';
+	RAISE INFO 'Error msg:%', err_msg;
+	RAISE INFO 'Error details:%', err_details;
+	RAISE INFO 'Error code:%', err_code;
+	RAISE INFO 'Error context:%', err_ctx;
+	RAISE INFO 'A problem. Nothing special.';
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT get_season_caller(15);
+
+CREATE OR REPLACE FUNCTION get_season_caller_2(month_number int) returns text AS $$
+DECLARE 
+	err_ctx text;
+	err_msg text;
+	err_details text;
+	err_code text;
+BEGIN
+	RETURN get_season(month_number);
+EXCEPTION 
+WHEN SQLSTATE '12885' THEN 
+	
+	RAISE INFO 'My custom handler:';
+	RAISE INFO 'Error Name:%', SQLERRM;
+	RAISE INFO 'Error details:%', SQLSTATE;
+	RAISE INFO 'A problem. Nothing special.';
+	RETURN NULL;
+WHEN OTHERS THEN
+	RAISE INFO 'My custom handler:';
+	RAISE INFO 'Error Name:%', SQLERRM;
+	RAISE INFO 'Error details:%', SQLSTATE;
+	RAISE INFO 'A problem. Nothing special.';
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT get_season_caller_2(15);
+
+--hw
+DROP FUNCTION should_increase_salary;
+create or replace function should_increase_salary(
+	cur_salary numeric,
+	max_salary numeric DEFAULT 80, 
+	min_salary numeric DEFAULT 30,
+	increase_rate numeric DEFAULT 0.2
+	) returns bool AS $$
+declare
+	new_salary numeric;
+begin
+	IF min_salary > max_salary THEN
+		RAISE EXCEPTION 'Invalid min/max salary. You passed min salary: (%) You passed max salary: (%)', min_salary, max_salary USING HINT = 'Min salary must be lower than max';--, ERRCODE = 1;
+	END IF;
+	
+	IF min_salary < 0 OR max_salary < 0 THEN
+		RAISE EXCEPTION 'Invalid min and max salaies. You passed min salary: (%) You passed max salary: (%)', min_salary, max_salary USING HINT = 'Max and min salaries must be greater than 0';--, ERRCODE = 2;
+	END IF;
+	
+	IF increase_rate < 0.05 THEN
+		RAISE EXCEPTION 'Invalid increase rate. You inserted: (%)', increase_rate USING HINT = 'Increase rate can''t be less than 5%';--, ERRCODE = 3;
+	END IF;
+	
+	if cur_salary >= max_salary or cur_salary >= min_salary then 		
+		return false;
+	end if;
+	
+	if cur_salary < min_salary then
+		new_salary = cur_salary + (cur_salary * increase_rate);
+	end if;
+	
+	if new_salary > max_salary then
+		return false;
+	else
+		return true;
+	end if;	
+end;
+$$ language plpgsql;
+
+SELECT should_increase_salary(79, 10, 80, 0.2);
+
+SELECT should_increase_salary(79, 10, -1, 0.2);
+
+SELECT should_increase_salary(79, 10, 10, 0.04);
 
 
 
