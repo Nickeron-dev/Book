@@ -1877,3 +1877,69 @@ VALUES
 ('Donald', 'Boyd', 'sdffdg'),
 ('sadf', 'sadf', 'sdf');
 
+SELECT supplier_id, SUM(units_in_stock)
+FROM products
+GROUP BY supplier_id
+ORDER BY supplier_id;
+
+SELECT supplier_id, category_id, SUM(units_in_stock)
+FROM products
+GROUP BY supplier_id, category_id
+ORDER BY supplier_id;
+
+SELECT supplier_id, category_id, SUM(units_in_stock)
+FROM products
+GROUP BY GROUPING SETS((supplier_id), (supplier_id, category_id))
+ORDER BY supplier_id, category_id NULLS FIRST;
+
+SELECT supplier_id, SUM(units_in_stock)
+FROM products
+GROUP BY ROLLUP(supplier_id);
+
+SELECT supplier_id, category_id, SUM(units_in_stock)
+FROM products
+GROUP BY ROLLUP (supplier_id, category_id)
+ORDER BY supplier_id, category_id NULLS FIRST;
+
+SELECT supplier_id, category_id, reorder_level, SUM(units_in_stock)
+FROM products
+GROUP BY ROLLUP (supplier_id, category_id, reorder_level)
+ORDER BY supplier_id, category_id NULLS FIRST;
+
+SELECT supplier_id, category_id, SUM(units_in_stock)
+FROM products
+GROUP BY CUBE (supplier_id, category_id)
+ORDER BY supplier_id, category_id NULLS FIRST;
+
+SELECT supplier_id, category_id, reorder_level, SUM(units_in_stock)
+FROM products
+GROUP BY CUBE (supplier_id, category_id, reorder_level)
+ORDER BY supplier_id, category_id NULLS FIRST;
+
+-- hw
+SELECT employee_id, SUM(unit_price * quantity)
+FROM employees
+LEFT JOIN order_details USING(order_id)
+GROUP BY ROLLUP(employee_id)
+ORDER BY SUM(unit_price * quantity) DESC;
+
+SELECT employee_id, ship_country, SUM(unit_price * quantity)
+FROM employees
+LEFT JOIN order_details USING(order_id)
+GROUP BY ROLLUP(employee_id, ship_country)
+ORDER BY employee_id, SUM(unit_price * quantity) DESC;
+
+SELECT employee_id, ship_country, SUM(unit_price * quantity)
+FROM employees
+LEFT JOIN order_details USING(order_id)
+GROUP BY CUBE(employee_id, ship_country)
+ORDER BY employee_id, SUM(unit_price * quantity) DESC;
+
+SELECT SUM
+FROM employees
+GROUP BY CUBE(SUMM);
+
+SELECT SUM
+FROM employees
+GROUP BY CUBE ()
+
