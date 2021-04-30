@@ -1713,3 +1713,167 @@ $$ LANGUAGE plpgsql;
 SELECT *
 FROM phone_number_filter(903, '+7(903)1901235', '+7(926)8567589', '+7(903)1532476');
 
+CREATE DOMAIN text_no_space_null AS text NOT NULL CHECK (value - '^(?!\s*$).+');
+
+CREATE TABLE agent(
+	first_name text_no_space_null,
+	last_name text_no_space_null
+);
+
+INSERT INTO agent
+VALUES ('bob', 'taylor');
+
+DROP FUNCTION IF EXISTS get_price_boundaries;
+CREATE OR REPLACE FUNCTION get_price_boundaries(out max_price real, out min_price real)
+RETURNS SETOF record AS $$
+	SELECT MAX(unit_price), min(unit_price)
+	FROM products
+$$ LANGUAGE SQL;
+
+SELECT *
+FROM get_price_boundaries();
+
+CREATE TYPE price_bounds AS (
+	max_price real,
+	min_price real
+);
+
+CREATE FUNCTION get_price_boundaries() RETURNS SETOF price_bounds AS $$
+	SELECT MAX(unit_price), MIN(unit_price)
+	FROM products
+$$ LANGUAGE SQL;
+
+SELECT *
+FROM get_price_boundaries();
+
+CREATE TYPE complex AS (
+	r float8,
+	i float8
+);
+
+CREATE TABLE math_calcs (
+	math_id serial,
+	val complex
+);
+
+INSERT INTO math_calcs(val)
+VALUES 
+(ROW(3.0, 4.0)),
+(ROW(2.0, 1.0));
+
+SELECT *
+FROM math_calcs;
+
+SELECT (val).r FROM math_calcs;
+SELECT (math_calcs.val).r FROM math_calcs;
+
+SELECT (val).* FROM math_calcs;
+
+UPDATE math_calcs
+SET val = ROW(5.0, 4.0)
+WHERE math_id = 1;
+
+
+UPDATE math_calcs
+SET val.r = 3.0
+WHERE math_id = 1;
+
+UPDATE math_calcs
+SET val.r = (val).r + 1.0
+WHERE math_id = 1;
+
+
+CREATE TABLE chess_title (
+	title_id serial PRIMARY KEY,
+	title text
+);
+
+CREATE TABLE chess_player (
+	player_id serial PRIMARY KEY,
+	first_name text,
+	last_name text,
+	title_id int REFERENCES chess_title(title_id)
+);
+
+INSERT INTO chess_title(title)
+VALUES 
+('Candidate Master'),
+('FIDE Master'),
+('International Master'),
+('Grand Master');
+
+SELECT *
+FROM chess_title;
+
+INSERT INTO chess_player(first_name, last_name, title_id)
+VALUES 
+('Wesley', 'So', 4),
+('Vlad', 'Kramnik', 4),
+('Vasily', 'Pupkin', 1);
+
+SELECT *
+FROM chess_player
+JOIN chess_title USING (title_id);
+
+DROP TABLE chess_title CASCADE;
+DROP TABLE chess_player;
+
+CREATE TYPE chess_title AS ENUM
+('Candidate Master', 'FIDE Master', 'International Master');
+
+SELECT enum_range(null::chess_title);
+
+ALTER TYPE chess_title
+ADD VALUE 'Grand Master' AFTER 'International Master';
+
+CREATE TABLE chess_player (
+	player_id serial PRIMARY KEY,
+	first_name text,
+	last_name text,
+	title chess_title
+);
+
+INSERT INTO chess_player(first_name, last_name, title)
+VALUES ('Magnus', 'Carlsen', 'Grand Master');
+
+SELECT *
+FROM chess_player;
+
+CREATE TYPE price_bounds AS (
+	min_price numeric,
+	max_price numeric
+	
+);
+
+create or replace function get_salary_boundaries_by_city(emp_city varchar) 
+	RETURNS SETOF price_bounds 
+AS 
+$$
+	SELECT MIN(salary) AS min_salary,
+	   	   MAX(salary) AS max_salary
+  	FROM employees
+	WHERE city = emp_city
+$$ language sql;
+
+SELECT *
+FROM get_salary_boundaries_by_city('London');
+
+CREATE TYPE army_rank AS ENUM ('Private', 'Corporal', 'Sergeant');
+
+SELECT enum_range(null::army_rank);
+
+ALTER TYPE army_rank
+ADD VALUE 'Major' AFTER 'Sergeant';
+
+CREATE TABLE personnel (
+	person_id serial PRIMARY KEY,
+	first_name text,
+	last_name text,
+	person_rank army_rank
+);
+
+INSERT INTO personnel (first_name, last_name, person_rank)
+VALUES
+('Donald', 'Boyd', 'sdffdg'),
+('sadf', 'sadf', 'sdf');
+
