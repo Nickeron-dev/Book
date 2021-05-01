@@ -1953,3 +1953,20 @@ SELECT order_id, order_date, product_id, customer_id, unit_price AS sub_total,
 FROM orders
 JOIN order_details USING(order_id)
 ORDER BY order_id;
+
+-- hw
+SELECT DISTINCT employee_id, total_by_emp, AVG(total_by_emp) OVER() AS avg_price
+FROM 
+	(
+		SELECT employee_id, SUM(unit_price * quantity) OVER (PARTITION BY employee_id) AS total_by_emp
+		FROM orders
+		LEFT JOIN order_details USING(order_id)
+	) q
+ORDER BY total_by_emp DESC;
+
+
+SELECT *
+FROM employees;
+
+SELECT first_name, last_name, title, salary, DENCE_RANK() OVER(ORDER BY salary DESC) 
+FROM employees;
