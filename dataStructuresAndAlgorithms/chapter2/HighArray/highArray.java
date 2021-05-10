@@ -2,6 +2,8 @@
 // demonstrates array class with high-level interface
 // to run this program: C>java HighArrayApp
 ////////////////////////////////////////////////////////////////
+import java.util.Arrays;
+
 class HighArray
    {
    private long[] a;                 // ref to array a
@@ -43,7 +45,8 @@ class HighArray
          {
          for(int k=j; k<nElems; k++) // move higher ones down
             a[k] = a[k+1];
-         nElems--;                   // decrement size
+         nElems--;
+         System.out.println(Arrays.toString(a));                // decrement size
          return true;
          }
       }  // end delete()
