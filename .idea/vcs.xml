@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spring/officialguide/gs-rest-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spring/officialguide/inputready/gs-validating-form-input" vcs="Git" />
   </component>
 </project>
