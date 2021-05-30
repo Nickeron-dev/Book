@@ -1,4 +1,9 @@
 input {
 	color:red;
-	background-color: blue;
+	background: blue;
+}
+
+table {
+	color: red;
+	background: green;
 }

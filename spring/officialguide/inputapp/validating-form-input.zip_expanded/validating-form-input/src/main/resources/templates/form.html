@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" th:href="@{/static/style.css}">
   </head>
     <body>
         <form action="#" th:action="@{/}" th:object="${personForm}" method="post">
