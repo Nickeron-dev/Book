@@ -1,4 +1,4 @@
-package com.example.handlingformsubmission;
+package com.application.MyContentApp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

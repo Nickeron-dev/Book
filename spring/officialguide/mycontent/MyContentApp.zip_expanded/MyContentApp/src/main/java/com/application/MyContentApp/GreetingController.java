@@ -1,4 +1,4 @@
-package com.example.handlingformsubmission;
+package com.application.MyContentApp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
